@@ -1,0 +1,7 @@
+{
+  "name": "IonicStore",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue"
+}
