@@ -4,12 +4,16 @@ import { RouteRecordRaw } from 'vue-router';
 const routes: Array<RouteRecordRaw> = [
   {
     path: '',
-    redirect: '/folder/Inbox'
+    redirect: '/catalogue/list'
   },
   {
-    path: '/folder/:id',
-    component: () => import ('../views/Folder.vue')
-  }
+    path: '/catalogue/grid',
+    component: () => import ('../views/CatalogueGrid.vue')
+  },
+  {
+    path: '/catalogue/list',
+    component: () => import ('../views/CatalogueList.vue')
+  },
 ]
 
 const router = createRouter({
