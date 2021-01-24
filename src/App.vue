@@ -68,7 +68,7 @@ export default defineComponent({
         mdIcon: paperPlaneSharp
       }
     ];
-    const labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
+    const labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel'];
     
     const path = window.location.pathname.split('folder/')[1];
     if (path !== undefined) {
