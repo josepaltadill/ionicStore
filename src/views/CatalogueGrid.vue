@@ -13,22 +13,23 @@
       <ion-grid>
         <ion-row>
           <ion-col class="content-card" size-xl="3" size-md="4" size-sm="6" size-xs="12" v-for="product in products" :key="product.id">
-            <div class="grid-card">
-              <div class="card-image">
-                <img :src="product.image">
-              </div>
-              <div class="card-content">
-                <h2>{{ product.title }}</h2>
-                <p class="product-description">{{ product.description }}</p>
-                <ion-chip outline color="primary">
-                  <ion-label>{{ product.category }}</ion-label>
-                </ion-chip>
-                <ion-badge color="tertiary" slot="end">{{ product.price }} €</ion-badge>
-              </div>
-              <div>
-                <ion-button expand="full" color="secondary">Comprar</ion-button>
-              </div>
-            </div>
+            <product :product="product"></product>
+<!--            <div class="grid-card">-->
+<!--              <div class="card-image">-->
+<!--                <img :src="product.image">-->
+<!--              </div>-->
+<!--              <div class="card-content">-->
+<!--                <h2>{{ product.title }}</h2>-->
+<!--                <p class="product-description">{{ product.description }}</p>-->
+<!--                <ion-chip outline color="primary">-->
+<!--                  <ion-label>{{ product.category }}</ion-label>-->
+<!--                </ion-chip>-->
+<!--                <ion-badge color="tertiary" slot="end">{{ product.price }} €</ion-badge>-->
+<!--              </div>-->
+<!--              <div>-->
+<!--                <ion-button expand="full" color="secondary">Comprar</ion-button>-->
+<!--              </div>-->
+<!--            </div>-->
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -46,12 +47,11 @@ import {
   IonTitle,
   IonToolbar,
   IonGrid,
-  IonChip,
-  IonLabel,
   IonRow,
   IonCol
 } from '@ionic/vue';
 import axios from "axios";
+import Product from "@/components/Product";
 
 export default {
   name: 'CatalogueGrid',
@@ -75,10 +75,9 @@ export default {
     IonTitle,
     IonToolbar,
     IonGrid,
-    IonChip,
-    IonLabel,
     IonRow,
-    IonCol
+    IonCol,
+    'product': Product
   },
 
 }

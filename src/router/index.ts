@@ -14,6 +14,10 @@ const routes: Array<RouteRecordRaw> = [
     path: '/catalogue/list',
     component: () => import ('../views/CatalogueList.vue')
   },
+  {
+    path: '/product/:id',
+    component: () => import ('../views/Product.vue')
+  },
 ]
 
 const router = createRouter({
