@@ -12,7 +12,7 @@
       <ion-badge color="tertiary" slot="end">{{ product.price }} €</ion-badge>
     </div>
     <div>
-      <ion-button expand="full" color="secondary">Comprar</ion-button>
+      <ion-button expand="full" color="secondary" :router-link="{name:'product', params:{id:product.id}}">Comprar</ion-button>
     </div>
   </div>
 </template>
