@@ -4,7 +4,7 @@ import { RouteRecordRaw } from 'vue-router';
 const routes: Array<RouteRecordRaw> = [
   {
     path: '',
-    redirect: '/catalogue/list'
+    redirect: '/catalogue/grid'
   },
   {
     path: '/catalogue/grid',
@@ -13,6 +13,10 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/catalogue/list',
     component: () => import ('../views/CatalogueList.vue')
+  },
+  {
+    path: '/catalogue/form',
+    component: () => import ('../views/CatalogueForm.vue')
   },
   {
     name: 'product',

@@ -5,7 +5,7 @@
         <ion-buttons slot="start">
           <ion-menu-button color="primary"></ion-menu-button>
         </ion-buttons>
-        <ion-title><h1>{{ product.title }}</h1></ion-title>
+        <ion-searchbar placeholder="Buscar productes..."></ion-searchbar>
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
@@ -14,6 +14,7 @@
           <img :src="product.image" alt="" />
         </div>
         <div class="product-content">
+          <ion-card-title><h1>{{ product.title }}</h1></ion-card-title>
           <ion-card-content>
             {{ product.description }}
           </ion-card-content>
@@ -42,17 +43,20 @@ import axios from "axios";
 import {
   IonToolbar,
   IonButtons,
+  IonButton,
   IonContent,
   IonHeader,
   IonMenuButton,
   IonPage,
-  IonTitle,
   IonCardContent,
+  IonCardTitle,
   IonCard,
   IonBadge,
   IonItem,
   IonLabel,
-  IonInput
+  IonInput,
+  IonIcon,
+  IonSearchbar
 } from '@ionic/vue';
 
 export default {
@@ -71,23 +75,30 @@ export default {
   },
   components: {
     IonButtons,
+    IonButton,
     IonContent,
     IonHeader,
     IonMenuButton,
     IonPage,
-    IonTitle,
     IonToolbar,
     IonCardContent,
+    IonCardTitle,
     IonCard,
     IonBadge,
     IonItem,
     IonLabel,
-    IonInput
+    IonInput,
+    IonIcon,
+    IonSearchbar
   },
 }
 </script>
 
 <style scoped>
+  ion-searchbar {
+    max-width: 80%;
+    margin: auto;
+  }
   .single-product-card {
     width: 90%;
     max-width: 1200px;

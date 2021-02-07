@@ -5,7 +5,16 @@
         <ion-buttons slot="start">
           <ion-menu-button color="primary"></ion-menu-button>
         </ion-buttons>
-        <ion-title>Llistat de productes</ion-title>
+        <ion-grid>
+          <ion-row class="ion-align-items-center">
+            <ion-col size-lg="4" size-xs="12">
+              <ion-title>Llistat de productes</ion-title>
+            </ion-col>
+            <ion-col size-lg="8" size-xs="12">
+              <ion-searchbar placeholder="Buscar productes..."></ion-searchbar>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
       </ion-toolbar>
     </ion-header>
 
@@ -19,7 +28,8 @@
             <h2>{{ product.title }}</h2>
             <p>{{ product.description }}</p>
             <ion-badge color="primary">{{ product.category }}</ion-badge>
-            <p>{{product.price}}€</p>
+            <ion-button expand="full" color="secondary" :router-link="{name:'product', params:{id:product.id}}">Comprar</ion-button>
+
           </ion-label>
         </ion-item>
       </ion-list>
@@ -40,7 +50,12 @@ import {
   IonItem,
   IonThumbnail,
   IonLabel,
-  IonBadge
+  IonBadge,
+  IonButton,
+  IonGrid,
+  IonRow,
+  IonCol,
+  IonSearchbar
 } from '@ionic/vue';
 import axios from "axios";
 
@@ -58,11 +73,16 @@ export default {
     IonItem,
     IonThumbnail,
     IonLabel,
-    IonBadge
+    IonBadge,
+    IonButton,
+    IonGrid,
+    IonRow,
+    IonCol,
+    IonSearchbar
   },
   data() {
     return {
-      products: []
+      products: [],
     }
   },
   mounted() {
@@ -98,5 +118,10 @@ export default {
 
 #container a {
   text-decoration: none;
+}
+
+ion-thumbnail img {
+  text-align: center;
+  object-fit: contain;
 }
 </style>

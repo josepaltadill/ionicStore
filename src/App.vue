@@ -6,7 +6,7 @@
           <ion-list id="inbox-list">
             <ion-list-header>Inbox</ion-list-header>
             <ion-note>hi@ionicframework.com</ion-note>
-  
+
             <ion-menu-toggle auto-hide="false" v-for="(p, i) in appPages" :key="i">
               <ion-item @click="selectedIndex = i" router-direction="root" :router-link="p.url" lines="none" detail="false" class="hydrated" :class="{ selected: selectedIndex === i }">
                 <ion-icon slot="start" :ios="p.iosIcon" :md="p.mdIcon"></ion-icon>
@@ -14,10 +14,10 @@
               </ion-item>
             </ion-menu-toggle>
           </ion-list>
-  
+
           <ion-list id="labels-list">
             <ion-list-header>Labels</ion-list-header>
-  
+
             <ion-item v-for="(label, index) in labels" lines="none" :key="index">
               <ion-icon slot="start" :ios="bookmarkOutline" :md="bookmarkSharp"></ion-icon>
               <ion-label>{{ label }}</ion-label>
@@ -39,17 +39,17 @@ import { archiveOutline, archiveSharp, bookmarkOutline, bookmarkSharp, heartOutl
 export default defineComponent({
   name: 'App',
   components: {
-    IonApp, 
-    IonContent, 
-    IonIcon, 
-    IonItem, 
-    IonLabel, 
-    IonList, 
-    IonListHeader, 
-    IonMenu, 
-    IonMenuToggle, 
-    IonNote, 
-    IonRouterOutlet, 
+    IonApp,
+    IonContent,
+    IonIcon,
+    IonItem,
+    IonLabel,
+    IonList,
+    IonListHeader,
+    IonMenu,
+    IonMenuToggle,
+    IonNote,
+    IonRouterOutlet,
     IonSplitPane,
   },
   setup() {
@@ -58,42 +58,50 @@ export default defineComponent({
       {
         title: 'Catalogue Grid',
         url: '/catalogue/grid',
-        iosIcon: mailOutline,
-        mdIcon: mailSharp
+        iosIcon: paperPlaneOutline,
+        mdIcon: paperPlaneSharp,
+        // iosIcon: mailOutline,
+        // mdIcon: mailSharp
       },
       {
         title: 'Catalogue List',
         url: '/catalogue/list',
         iosIcon: paperPlaneOutline,
         mdIcon: paperPlaneSharp
+      },
+      {
+        title: 'Insertar nou producte',
+        url: '/catalogue/form',
+        iosIcon: paperPlaneOutline,
+        mdIcon: paperPlaneSharp
       }
     ];
-    const labels = ['Family', 'Friends', 'Notes', 'Work'];
-    
+    const labels = ['Men clothing', 'Women clothing', 'Jewelery', 'Electronics'];
+
     const path = window.location.pathname.split('folder/')[1];
     if (path !== undefined) {
       selectedIndex.value = appPages.findIndex(page => page.title.toLowerCase() === path.toLowerCase());
     }
-    
+
     const route = useRoute();
-    
-    return { 
+
+    return {
       selectedIndex,
-      appPages, 
+      appPages,
       labels,
-      archiveOutline, 
-      archiveSharp, 
-      bookmarkOutline, 
-      bookmarkSharp, 
-      heartOutline, 
-      heartSharp, 
-      mailOutline, 
-      mailSharp, 
-      paperPlaneOutline, 
-      paperPlaneSharp, 
-      trashOutline, 
-      trashSharp, 
-      warningOutline, 
+      archiveOutline,
+      archiveSharp,
+      bookmarkOutline,
+      bookmarkSharp,
+      heartOutline,
+      heartSharp,
+      mailOutline,
+      mailSharp,
+      paperPlaneOutline,
+      paperPlaneSharp,
+      trashOutline,
+      trashSharp,
+      warningOutline,
       warningSharp,
       isSelected: (url: string) => url === route.path ? 'selected' : ''
     }

@@ -5,31 +5,24 @@
         <ion-buttons slot="start">
           <ion-menu-button color="primary"></ion-menu-button>
         </ion-buttons>
-        <ion-title>Catalogue Grid</ion-title>
+        <ion-grid>
+          <ion-row class="ion-align-items-center">
+            <ion-col size-lg="4" size-xs="12">
+              <ion-title>Catalogue Grid</ion-title>
+            </ion-col>
+            <ion-col size-lg="8" size-xs="12">
+              <ion-searchbar placeholder="Buscar productes..."></ion-searchbar>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
       </ion-toolbar>
     </ion-header>
-    
+
     <ion-content :fullscreen="true">
       <ion-grid>
         <ion-row>
           <ion-col class="content-card" size-xl="3" size-md="4" size-sm="6" size-xs="12" v-for="product in products" :key="product.id">
             <product :product="product"></product>
-<!--            <div class="grid-card">-->
-<!--              <div class="card-image">-->
-<!--                <img :src="product.image">-->
-<!--              </div>-->
-<!--              <div class="card-content">-->
-<!--                <h2>{{ product.title }}</h2>-->
-<!--                <p class="product-description">{{ product.description }}</p>-->
-<!--                <ion-chip outline color="primary">-->
-<!--                  <ion-label>{{ product.category }}</ion-label>-->
-<!--                </ion-chip>-->
-<!--                <ion-badge color="tertiary" slot="end">{{ product.price }} €</ion-badge>-->
-<!--              </div>-->
-<!--              <div>-->
-<!--                <ion-button expand="full" color="secondary">Comprar</ion-button>-->
-<!--              </div>-->
-<!--            </div>-->
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -48,7 +41,8 @@ import {
   IonToolbar,
   IonGrid,
   IonRow,
-  IonCol
+  IonCol,
+  IonSearchbar
 } from '@ionic/vue';
 import axios from "axios";
 import Product from "@/components/Product";
@@ -77,6 +71,7 @@ export default {
     IonGrid,
     IonRow,
     IonCol,
+    IonSearchbar,
     'product': Product
   },
 
