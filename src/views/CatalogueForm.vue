@@ -75,7 +75,8 @@ import {
   IonTextarea,
   IonSelectOption,
   IonSelect,
-  IonButton
+  IonButton,
+  loadingController
 } from '@ionic/vue';
 export default {
   name: "CatalogueForm",
@@ -99,12 +100,33 @@ export default {
     IonSelectOption,
     IonSelect,
     IonButton
+  },
+  mounted() {
+    this.presentLoading();
+  },
+  methods: {
+    async presentLoading() {
+      const loading = await loadingController
+          .create({
+            cssClass: 'my-custom-class',
+            message: 'Please wait...',
+            duration: this.timeout,
+          });
+
+      await loading.present();
+
+      setTimeout(function() {
+        loading.dismiss()
+      }, 30);
+    },
   }
 }
 </script>
 
 <style scoped>
 ion-content > div {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   height: 100%;
 }
@@ -113,6 +135,7 @@ ion-content > div {
   max-width: 800px;
   margin: auto;
   padding: 30px;
+  -webkit-box-shadow: 2px 2px 7px var(--ion-color-warning-contrast);
   box-shadow: 2px 2px 7px var(--ion-color-warning-contrast);
 }
 .content-formulari ion-item {

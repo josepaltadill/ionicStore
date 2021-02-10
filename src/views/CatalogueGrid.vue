@@ -42,7 +42,8 @@ import {
   IonGrid,
   IonRow,
   IonCol,
-  IonSearchbar
+  IonSearchbar,
+  loadingController
 } from '@ionic/vue';
 import axios from "axios";
 import Product from "@/components/Product";
@@ -55,10 +56,27 @@ export default {
     }
   },
   mounted() {
+    this.presentLoading();
     axios.get('https://fakestoreapi.com/products')
         .then(response => {
           this.products = response.data
         })
+  },
+  methods: {
+    async presentLoading() {
+      const loading = await loadingController
+          .create({
+            cssClass: 'my-custom-class',
+            message: 'Please wait...',
+            duration: this.timeout,
+          });
+
+      await loading.present();
+
+      setTimeout(function() {
+        loading.dismiss()
+      }, 1900);
+    },
   },
   components: {
     IonButtons,
@@ -84,10 +102,17 @@ export default {
   }
   .grid-card {
     height: 100%;
+    -webkit-box-shadow: 2px 2px 7px var(--ion-color-warning-contrast);
     box-shadow: 2px 2px 7px var(--ion-color-warning-contrast);
-
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
     flex-direction: column;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
     justify-content: space-between;
   }
   .card-image {

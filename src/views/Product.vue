@@ -56,7 +56,7 @@ import {
   IonLabel,
   IonInput,
   IonIcon,
-  IonSearchbar
+  IonSearchbar, loadingController
 } from '@ionic/vue';
 
 export default {
@@ -68,10 +68,27 @@ export default {
     }
   },
   mounted() {
+    this.presentLoading();
     axios.get(`https://fakestoreapi.com/products/${this.id}`)
         .then(response => {
           this.product = response.data
         })
+  },
+  methods: {
+    async presentLoading() {
+      const loading = await loadingController
+          .create({
+            cssClass: 'my-custom-class',
+            message: 'Please wait...',
+            duration: this.timeout,
+          });
+
+      await loading.present();
+
+      setTimeout(function() {
+        loading.dismiss()
+      }, 1800);
+    },
   },
   components: {
     IonButtons,
@@ -104,10 +121,17 @@ export default {
     max-width: 1200px;
     margin: auto;
     padding: 90px 0;
+    display: -ms-grid;
     display: grid;
+    -ms-grid-columns: 1fr 50px 1fr;
     grid-template-columns: repeat(2, 1fr);
+    -webkit-column-gap: 50px;
+    -moz-column-gap: 50px;
     column-gap: 50px;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
+    -webkit-box-shadow: none;
     box-shadow: none;
   }
   .single-product-card .product-image {
@@ -123,6 +147,8 @@ export default {
     font-size: 20px;
   }
   .single-product-card .content-compra {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
     margin-top: 20px;
   }
@@ -141,5 +167,13 @@ export default {
   }
   .socials ion-icon:not(:last-child) {
     margin-right: 10px;
+  }
+
+  @media (max-width: 720px) {
+    .single-product-card {
+      -ms-grid-columns: 1fr;
+      grid-template-columns: 1fr;
+      row-gap: 50px;
+    }
   }
 </style>
