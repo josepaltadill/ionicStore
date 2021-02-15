@@ -91,4 +91,9 @@ export default {
 .card-content ion-label {
   font-size: 12px;
 }
+
+.card-content ion-badge {
+  padding: 10px;
+  font-size: 16px;
+}
 </style>

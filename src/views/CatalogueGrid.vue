@@ -98,7 +98,7 @@ export default {
 
 <style scoped>
   .content-card {
-    padding: 10px;
+    padding: 20px;
   }
   .grid-card {
     height: 100%;

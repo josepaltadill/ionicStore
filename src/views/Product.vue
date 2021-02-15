@@ -18,7 +18,7 @@
           <ion-card-content>
             {{ product.description }}
           </ion-card-content>
-          <ion-badge class="content-preu" color="tertiary" slot="end">{{ product.price }} €</ion-badge>
+          <p class="content-preu">{{ product.price }} €</p>
           <div class="content-compra">
             <ion-item lines="none">
               <ion-label>Quantitat</ion-label>
@@ -101,7 +101,7 @@ export default {
     IonCardContent,
     IonCardTitle,
     IonCard,
-    IonBadge,
+    // IonBadge,
     IonItem,
     IonLabel,
     IonInput,
@@ -143,8 +143,9 @@ export default {
     margin-bottom: 20px;
   }
   .single-product-card .content-preu {
-    padding: 10px 20px;
     font-size: 20px;
+    font-weight: 600;
+    color: var(--ion-color-primary);
   }
   .single-product-card .content-compra {
     display: -webkit-box;
