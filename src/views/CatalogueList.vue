@@ -19,21 +19,45 @@
     </ion-header>
 
     <ion-content :fullscreen="true">
-      <ion-list>
-        <ion-item :router-link="{name:'product', params:{id:product.id}}" v-for="product in products" :key="product.id">
-          <ion-thumbnail slot="start">
-            <img :src="product.image">
-          </ion-thumbnail>
-          <ion-label>
-            <h2>{{ product.title }}</h2>
-            <p>{{ product.description }}</p>
-            <ion-badge class="llista-cat">{{ product.category }}</ion-badge>
-            <ion-badge color="primary">{{ product.price }} €</ion-badge>
-            <ion-button expand="full" color="secondary" :router-link="{name:'product', params:{id:product.id}}">Comprar</ion-button>
-
-          </ion-label>
-        </ion-item>
-      </ion-list>
+      <div v-if="data">
+        <ion-list>
+          <ion-item :router-link="{name:'product', params:{id:product.id}}" v-for="product in products" :key="product.id">
+            <ion-thumbnail slot="start">
+              <img :src="product.image">
+            </ion-thumbnail>
+            <ion-label>
+              <h2>{{ product.title }}</h2>
+              <p>{{ product.description }}</p>
+              <ion-badge class="llista-cat">{{ product.category }}</ion-badge>
+              <ion-badge color="primary">{{ product.price }} €</ion-badge>
+              <ion-button expand="full" color="secondary" :router-link="{name:'product', params:{id:product.id}}">Comprar</ion-button>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </div>
+      <div v-if="!data">
+        <div class="ion-padding custom-skeleton">
+          <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+          <ion-skeleton-text animated></ion-skeleton-text>
+          <ion-skeleton-text animated style="width: 88%"></ion-skeleton-text>
+          <ion-skeleton-text animated style="width: 70%"></ion-skeleton-text>
+          <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+        </div>
+        <ion-list>
+          <ion-item :router-link="{name:'product', params:{id:product.id}}" v-for="product in products" :key="product.id">
+            <ion-thumbnail slot="start">
+              <ion-skeleton-text animated width="20%"></ion-skeleton-text>
+            </ion-thumbnail>
+            <ion-label>
+              <h2><ion-skeleton-text animated width="60%"></ion-skeleton-text></h2>
+              <p><ion-skeleton-text animated width="100%"></ion-skeleton-text></p>
+              <ion-badge class="llista-cat"><ion-skeleton-text animated width="70%"></ion-skeleton-text></ion-badge>
+              <ion-badge color="primary"><ion-skeleton-text animated width="70%"></ion-skeleton-text></ion-badge>
+              <ion-button expand="full" color="secondary" :router-link="{name:'product', params:{id:product.id}}"><ion-skeleton-text animated width="70%"></ion-skeleton-text></ion-button>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </div>
     </ion-content>
   </ion-page>
 </template>
@@ -57,9 +81,11 @@ import {
   IonRow,
   IonCol,
   IonSearchbar,
-  loadingController
+  loadingController,
+  IonSkeletonText
 } from '@ionic/vue';
 import axios from "axios";
+import {ref} from 'vue';
 
 export default {
   name: 'CatalogueList',
@@ -80,12 +106,23 @@ export default {
     IonGrid,
     IonRow,
     IonCol,
-    IonSearchbar
+    IonSearchbar,
+    IonSkeletonText
   },
   data() {
     return {
       products: [],
     }
+  },
+  setup() {
+    const data = ref();
+
+    setTimeout(() => {
+      data.value = {
+      };
+    }, 2000);
+
+    return { data }
   },
   mounted() {
     this.presentLoading();

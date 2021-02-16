@@ -9,31 +9,67 @@
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
-      <ion-card class="single-product-card">
-        <div class="product-image">
-          <img :src="product.image" alt="" />
-        </div>
-        <div class="product-content">
-          <ion-card-title><h1>{{ product.title }}</h1></ion-card-title>
-          <ion-card-content>
-            {{ product.description }}
-          </ion-card-content>
-          <p class="content-preu">{{ product.price }} €</p>
-          <div class="content-compra">
-            <ion-item lines="none">
-              <ion-label>Quantitat</ion-label>
-              <ion-input placeholder="0" type="number"></ion-input>
-            </ion-item>
-            <ion-button color="secondary">Comprar</ion-button>
+      <div v-if="data">
+        <ion-card class="single-product-card">
+          <div class="product-image">
+            <img :src="product.image" alt="" />
           </div>
-          <div class="socials">
-            <ion-icon src="assets/img/logo-facebook.svg"></ion-icon>
-            <ion-icon src="assets/img/logo-instagram.svg"></ion-icon>
-            <ion-icon src="assets/img/logo-twitter.svg"></ion-icon>
-            <ion-icon src="assets/img/logo-pinterest.svg"></ion-icon>
+          <div class="product-content">
+            <ion-card-title><h1>{{ product.title }}</h1></ion-card-title>
+            <ion-card-content>
+              {{ product.description }}
+            </ion-card-content>
+            <p class="content-preu">{{ product.price }} €</p>
+            <div class="content-compra">
+              <ion-item lines="none">
+                <ion-label>Quantitat</ion-label>
+                <ion-input placeholder="0" type="number" v-model="quantitat"></ion-input>
+              </ion-item>
+              <ion-button @click="openModal" color="secondary">Comprar</ion-button>
+            </div>
+            <div class="socials">
+              <ion-icon src="assets/img/logo-facebook.svg"></ion-icon>
+              <ion-icon src="assets/img/logo-instagram.svg"></ion-icon>
+              <ion-icon src="assets/img/logo-twitter.svg"></ion-icon>
+              <ion-icon src="assets/img/logo-pinterest.svg"></ion-icon>
+            </div>
           </div>
+        </ion-card>
+      </div>
+      <div v-if="!data">
+        <div class="ion-padding custom-skeleton">
+          <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+          <ion-skeleton-text animated></ion-skeleton-text>
+          <ion-skeleton-text animated style="width: 88%"></ion-skeleton-text>
+          <ion-skeleton-text animated style="width: 70%"></ion-skeleton-text>
+          <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
         </div>
-      </ion-card>
+        <ion-card class="single-product-card">
+          <div class="product-image">
+            <ion-skeleton-text animated width="60%"></ion-skeleton-text>
+          </div>
+          <div class="product-content">
+            <ion-card-title><ion-skeleton-text animated width="60%"></ion-skeleton-text></ion-card-title>
+            <ion-card-content>
+              <ion-skeleton-text animated width="60%"></ion-skeleton-text>
+            </ion-card-content>
+            <p class="content-preu"><ion-skeleton-text animated width="60%"></ion-skeleton-text></p>
+            <div class="content-compra">
+              <ion-item lines="none">
+                <ion-label><ion-skeleton-text animated width="60%"></ion-skeleton-text></ion-label>
+                <ion-input placeholder="0" type="number" v-model="quantitat"><ion-skeleton-text animated width="60%"></ion-skeleton-text></ion-input>
+              </ion-item>
+              <ion-button @click="openModal" color="secondary"><ion-skeleton-text animated width="60%"></ion-skeleton-text></ion-button>
+            </div>
+            <div class="socials">
+              <ion-icon src="assets/img/logo-facebook.svg"><ion-skeleton-text animated width="60%"></ion-skeleton-text></ion-icon>
+              <ion-icon src="assets/img/logo-instagram.svg"><ion-skeleton-text animated width="60%"></ion-skeleton-text></ion-icon>
+              <ion-icon src="assets/img/logo-twitter.svg"><ion-skeleton-text animated width="60%"></ion-skeleton-text></ion-icon>
+              <ion-icon src="assets/img/logo-pinterest.svg"><ion-skeleton-text animated width="60%"></ion-skeleton-text></ion-icon>
+            </div>
+          </div>
+        </ion-card>
+      </div>
     </ion-content>
   </ion-page>
 </template>
@@ -55,16 +91,32 @@ import {
   IonLabel,
   IonInput,
   IonIcon,
-  IonSearchbar, loadingController
+  IonSearchbar,
+  loadingController,
+  modalController,
+  IonSkeletonText
 } from '@ionic/vue';
+import Cistella from "@/components/Cistella";
+import {ref} from 'vue';
 
 export default {
   name: "ProductInd",
   data() {
     return {
       id:this.$route.params.id,
-      product: {}
+      product: {},
+      quantitat: this.quantitat
     }
+  },
+  setup() {
+    const data = ref();
+
+    setTimeout(() => {
+      data.value = {
+      };
+    }, 2000);
+
+    return { data }
   },
   mounted() {
     this.presentLoading();
@@ -88,6 +140,21 @@ export default {
         loading.dismiss()
       }, 1800);
     },
+    async openModal() {
+      const modal = await modalController
+          .create({
+            component: Cistella,
+            cssClass: 'my-custom-class',
+            componentProps: {
+              title: 'Felicitats',
+              content: "Producte afegit correctament a la cistella",
+              producte: this.product.title,
+              preu: this.product.price,
+              unitats: this.quantitat
+            },
+          })
+      return modal.present();
+    },
   },
   components: {
     IonButtons,
@@ -104,7 +171,8 @@ export default {
     IonLabel,
     IonInput,
     IonIcon,
-    IonSearchbar
+    IonSearchbar,
+    IonSkeletonText
   },
 }
 </script>
