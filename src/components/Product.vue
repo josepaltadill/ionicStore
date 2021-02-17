@@ -1,5 +1,5 @@
 <template>
-  <div class="grid-card">
+  <div class="grid-card" v-if="data">
     <div class="card-image">
       <img :src="product.image">
     </div>
@@ -15,6 +15,31 @@
       <ion-button expand="full" color="secondary" :router-link="{name:'product', params:{id:product.id}}">Comprar</ion-button>
     </div>
   </div>
+  <div v-if="!data">
+    <div class="ion-padding custom-skeleton">
+      <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+      <ion-skeleton-text animated></ion-skeleton-text>
+      <ion-skeleton-text animated style="width: 88%"></ion-skeleton-text>
+      <ion-skeleton-text animated style="width: 70%"></ion-skeleton-text>
+      <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+    </div>
+    <div class="grid-card">
+      <div class="card-image">
+        <ion-skeleton-text animated width="100%"></ion-skeleton-text>
+      </div>
+      <div class="card-content">
+        <h2><ion-skeleton-text animated width="100%"></ion-skeleton-text></h2>
+        <p class="product-description"><ion-skeleton-text animated width="100%"></ion-skeleton-text></p>
+        <ion-chip outline color="primary">
+          <ion-label><ion-skeleton-text animated width="100%"></ion-skeleton-text></ion-label>
+        </ion-chip>
+        <ion-badge color="tertiary" slot="end"><ion-skeleton-text animated width="100%"></ion-skeleton-text></ion-badge>
+      </div>
+      <div>
+        <ion-button expand="full" color="secondary" :router-link="{name:'product', params:{id:product.id}}"><ion-skeleton-text animated width="100%"></ion-skeleton-text></ion-button>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -22,20 +47,33 @@ import {
   IonLabel,
   IonChip,
   IonBadge,
-  IonButton
+  IonButton,
+  IonSkeletonText
 } from '@ionic/vue';
+import {ref} from 'vue';
 export default {
   name: "Product",
   components: {
     IonLabel,
     IonChip,
     IonBadge,
-    IonButton
+    IonButton,
+    IonSkeletonText
   },
   data() {
     return {
       value: ''
     }
+  },
+  setup() {
+    const data = ref();
+
+    setTimeout(() => {
+      data.value = {
+      };
+    }, 2000);
+
+    return { data }
   },
   props: {
     product: {
@@ -84,7 +122,7 @@ export default {
 .card-content ion-chip {
   position: absolute;
   top: 30px;
-  left: 15px;
+  left: 25px;
   background-color: rgba(var(--ion-color-base-rgb), 0.50);
   color: var(--ion-color-primary-contrast);
 }

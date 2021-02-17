@@ -21,20 +21,24 @@
     <ion-content :fullscreen="true">
       <div v-if="data">
         <ion-list>
-          <ion-item :router-link="{name:'product', params:{id:product.id}}" v-for="product in products" :key="product.id">
+          <ion-item :router-link="{name:'product', params:{id:item.id}}" v-for="item in items" :key="item.id">
             <ion-thumbnail slot="start">
-              <img :src="product.image">
+              <img :src="item.image">
             </ion-thumbnail>
             <ion-label>
-              <h2>{{ product.title }}</h2>
-              <p>{{ product.description }}</p>
-              <ion-badge class="llista-cat">{{ product.category }}</ion-badge>
-              <ion-badge color="primary">{{ product.price }} €</ion-badge>
-              <ion-button expand="full" color="secondary" :router-link="{name:'product', params:{id:product.id}}">Comprar</ion-button>
+              <h2>{{ item.title }}</h2>
+              <p>{{ item.description }}</p>
+              <ion-badge class="llista-cat">{{ item.category }}</ion-badge>
+              <ion-badge color="primary">{{ item.price }} €</ion-badge>
+              <ion-button expand="full" color="secondary" :router-link="{name:'item', params:{id:item.id}}">Comprar</ion-button>
             </ion-label>
           </ion-item>
         </ion-list>
       </div>
+      <ion-infinite-scroll threshold="100px" id="infinite-scroll" @ionInfinite="loadData($event)" :disabled="isDisabled">
+        <ion-infinite-scroll-content loading-spinner="bubbles" loading-text="Loading more data...">
+        </ion-infinite-scroll-content>
+      </ion-infinite-scroll>
       <div v-if="!data">
         <div class="ion-padding custom-skeleton">
           <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
@@ -44,7 +48,7 @@
           <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
         </div>
         <ion-list>
-          <ion-item :router-link="{name:'product', params:{id:product.id}}" v-for="product in products" :key="product.id">
+          <ion-item :router-link="{name:'product', params:{id:item.id}}" v-for="item in items" :key="item.id">
             <ion-thumbnail slot="start">
               <ion-skeleton-text animated width="20%"></ion-skeleton-text>
             </ion-thumbnail>
@@ -53,7 +57,7 @@
               <p><ion-skeleton-text animated width="100%"></ion-skeleton-text></p>
               <ion-badge class="llista-cat"><ion-skeleton-text animated width="70%"></ion-skeleton-text></ion-badge>
               <ion-badge color="primary"><ion-skeleton-text animated width="70%"></ion-skeleton-text></ion-badge>
-              <ion-button expand="full" color="secondary" :router-link="{name:'product', params:{id:product.id}}"><ion-skeleton-text animated width="70%"></ion-skeleton-text></ion-button>
+              <ion-button expand="full" color="secondary" :router-link="{name:'product', params:{id:item.id}}"><ion-skeleton-text animated width="70%"></ion-skeleton-text></ion-button>
             </ion-label>
           </ion-item>
         </ion-list>
@@ -82,7 +86,9 @@ import {
   IonCol,
   IonSearchbar,
   loadingController,
-  IonSkeletonText
+  IonSkeletonText,
+  IonInfiniteScroll,
+  IonInfiniteScrollContent
 } from '@ionic/vue';
 import axios from "axios";
 import {ref} from 'vue';
@@ -107,11 +113,16 @@ export default {
     IonRow,
     IonCol,
     IonSearchbar,
-    IonSkeletonText
+    IonSkeletonText,
+    IonInfiniteScroll,
+    IonInfiniteScrollContent
   },
   data() {
     return {
       products: [],
+      items: [],
+      i: 0,
+      isDisabled: false
     }
   },
   setup() {
@@ -127,8 +138,13 @@ export default {
   mounted() {
     this.presentLoading();
     axios.get('https://fakestoreapi.com/products')
-        .then(response => {
-          this.products = response.data
+      .then(response => {
+        this.products = response.data
+          setTimeout(() => {
+            for (; this.i < 10; this.i++) {
+              this.items.push(this.products[this.i]);
+            }
+          }, 500)
         })
   },
   methods: {
@@ -146,6 +162,22 @@ export default {
         loading.dismiss()
       }, 1900);
     },
+
+    loadData(event) {
+      setTimeout(() => {
+        this.addMoreItems();
+        if (this.items.length == this.products.length) {
+          this.isDisabled = true
+        }
+      },500);
+    },
+    addMoreItems() {
+      const max = this.items.length + 10;
+      const min = max - 10;
+      for (let i = min; i < max; i++) {
+        this.items.push(this.products[i]);
+      }
+    }
   }
 }
 </script>

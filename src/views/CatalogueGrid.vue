@@ -75,7 +75,7 @@ export default {
 
       setTimeout(function() {
         loading.dismiss()
-      }, 1900);
+      }, 300);
     },
   },
   components: {
