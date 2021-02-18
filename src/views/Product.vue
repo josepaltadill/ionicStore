@@ -19,7 +19,15 @@
             <ion-card-content>
               {{ product.description }}
             </ion-card-content>
-            <p class="content-preu">{{ product.price }} €</p>
+            <div class="section-preu">
+              <p class="content-preu">{{ product.price }} €</p>
+              <ion-fab-button color="secondary" @click="openModalFavorits">
+                <ion-icon :md="heart"></ion-icon>
+              </ion-fab-button>
+              <ion-fab-button color="secondary" @click="openEditProduct">
+                <ion-icon :md="pencil"></ion-icon>
+              </ion-fab-button>
+            </div>
             <div class="content-compra">
               <ion-item lines="none">
                 <ion-label>Quantitat</ion-label>
@@ -94,10 +102,14 @@ import {
   IonSearchbar,
   loadingController,
   modalController,
-  IonSkeletonText
+  IonSkeletonText,
+  IonFabButton,
+  actionSheetController
 } from '@ionic/vue';
+import { heart, pencil, trash, close } from 'ionicons/icons';
 import Cistella from "@/components/Cistella";
 import {ref} from 'vue';
+import AfegirFavoritsModal from "@/components/AfegirFavoritsModal";
 
 export default {
   name: "ProductInd",
@@ -105,7 +117,11 @@ export default {
     return {
       id:this.$route.params.id,
       product: {},
-      quantitat: this.quantitat
+      quantitat: this.quantitat,
+      heart,
+      pencil,
+      trash,
+      close
     }
   },
   setup() {
@@ -144,7 +160,7 @@ export default {
       const modal = await modalController
           .create({
             component: Cistella,
-            cssClass: 'my-custom-class',
+            cssClass: 'my-cistella-class',
             componentProps: {
               title: 'Felicitats',
               content: "Producte afegit correctament a la cistella",
@@ -155,6 +171,40 @@ export default {
           })
       return modal.present();
     },
+    async openModalFavorits() {
+      const modal = await modalController
+          .create({
+            component: AfegirFavoritsModal,
+            cssClass: 'my-favorits-class',
+            componentProps: {
+              title: 'Felicitats',
+              content: "Producte afegit correctament a la llista de favorits",
+              producte: this.product.title,
+            },
+          })
+      return modal.present();
+    },
+    async openEditProduct() {
+      const actionSheet = await actionSheetController.create({
+        header: 'Edita el producte',
+        cssClass: 'actionSheet-class',
+        buttons: [
+          {
+            text: 'Modificar',
+            icon: pencil,
+          },
+          {
+            text: 'Delete',
+            icon: trash,
+          },
+          {
+            text: 'Cancel',
+            icon: close,
+          }
+        ]
+      });
+      return actionSheet.present();
+    }
   },
   components: {
     IonButtons,
@@ -172,7 +222,8 @@ export default {
     IonInput,
     IonIcon,
     IonSearchbar,
-    IonSkeletonText
+    IonSkeletonText,
+    IonFabButton
   },
 }
 </script>
@@ -218,6 +269,14 @@ export default {
     display: -ms-flexbox;
     display: flex;
     margin-top: 20px;
+  }
+  .section-preu {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
   }
   .content-compra > ion-item {
     width: 50%;

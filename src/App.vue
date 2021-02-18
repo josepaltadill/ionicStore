@@ -47,7 +47,7 @@
 
 <script lang="ts">
 import { IonApp, IonContent, IonIcon, IonItem, IonLabel, IonList, IonListHeader, IonMenu, IonMenuToggle, IonNote, IonRouterOutlet, IonSplitPane, IonFab,
-  IonFabButton } from '@ionic/vue';
+  IonFabButton, IonSelectOption, IonSelect } from '@ionic/vue';
 import { defineComponent, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { archiveOutline, archiveSharp, add, bookmarkOutline, bookmarkSharp, heartOutline, heartSharp, mailOutline, mailSharp, paperPlaneOutline, paperPlaneSharp, trashOutline, trashSharp, warningOutline, warningSharp } from 'ionicons/icons';
@@ -68,7 +68,9 @@ export default defineComponent({
     IonRouterOutlet,
     IonSplitPane,
     IonFab,
-    IonFabButton
+    IonFabButton,
+    IonSelectOption,
+    IonSelect
   },
   setup() {
     const selectedIndex = ref(0);
