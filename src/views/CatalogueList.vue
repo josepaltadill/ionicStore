@@ -21,16 +21,19 @@
     <ion-content :fullscreen="true">
       <div v-if="data">
         <ion-list>
-          <ion-item :router-link="{name:'product', params:{id:item.id}}" v-for="item in items" :key="item.id">
+          <ion-item v-for="item in items" :key="item.id">
             <ion-thumbnail slot="start">
               <img :src="item.image">
             </ion-thumbnail>
             <ion-label>
               <h2>{{ item.title }}</h2>
-              <p>{{ item.description }}</p>
+              <div class="description-more">
+                <p>{{ item.description }}</p>
+                <p @click="openPopover">More</p>
+              </div>
               <ion-badge class="llista-cat">{{ item.category }}</ion-badge>
               <ion-badge color="primary">{{ item.price }} €</ion-badge>
-              <ion-button expand="full" color="secondary" :router-link="{name:'item', params:{id:item.id}}">Comprar</ion-button>
+              <ion-button expand="full" color="secondary" :router-link="{name:'product', params:{id:item.id}}">Comprar</ion-button>
             </ion-label>
           </ion-item>
         </ion-list>
@@ -88,10 +91,12 @@ import {
   loadingController,
   IonSkeletonText,
   IonInfiniteScroll,
-  IonInfiniteScrollContent
+  IonInfiniteScrollContent,
+  popoverController
 } from '@ionic/vue';
 import axios from "axios";
 import {ref} from 'vue';
+import DescripcioPopover from "@/components/DescripcioPopover";
 
 export default {
   name: 'CatalogueList',
@@ -155,14 +160,11 @@ export default {
             message: 'Please wait...',
             duration: this.timeout,
           });
-
       await loading.present();
-
       setTimeout(function() {
         loading.dismiss()
       }, 1900);
     },
-
     loadData(event) {
       setTimeout(() => {
         this.addMoreItems();
@@ -177,6 +179,18 @@ export default {
       for (let i = min; i < max; i++) {
         this.items.push(this.products[i]);
       }
+    },
+    async openPopover() {
+      console.log(this.items);
+      const popover = await popoverController.create({
+          component: DescripcioPopover,
+          cssClass: 'my-custom-class',
+          componentProps: {
+            content: this.items.description,
+          },
+          translucent: true
+        })
+      return popover.present();
     }
   }
 }
@@ -210,8 +224,19 @@ export default {
   text-decoration: none;
 }
 
-ion-item {
+.description-more {
+  display: flex;
+}
+
+.description-more > p:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.description-more > p:last-child {
+  color: var(--ion-color-success-shade);
   cursor: pointer;
+  margin-left: 5px;
 }
 
 ion-thumbnail img {

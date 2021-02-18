@@ -27,14 +27,20 @@
       </ion-menu>
       <ion-router-outlet id="main-content"></ion-router-outlet>
     </IonSplitPane>
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+      <ion-fab-button color="primary" href="/catalogue/form">
+        <ion-icon :md="add"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
   </IonApp>
 </template>
 
 <script lang="ts">
-import { IonApp, IonContent, IonIcon, IonItem, IonLabel, IonList, IonListHeader, IonMenu, IonMenuToggle, IonNote, IonRouterOutlet, IonSplitPane } from '@ionic/vue';
+import { IonApp, IonContent, IonIcon, IonItem, IonLabel, IonList, IonListHeader, IonMenu, IonMenuToggle, IonNote, IonRouterOutlet, IonSplitPane, IonFab,
+  IonFabButton } from '@ionic/vue';
 import { defineComponent, ref } from 'vue';
 import { useRoute } from 'vue-router';
-import { archiveOutline, archiveSharp, bookmarkOutline, bookmarkSharp, heartOutline, heartSharp, mailOutline, mailSharp, paperPlaneOutline, paperPlaneSharp, trashOutline, trashSharp, warningOutline, warningSharp } from 'ionicons/icons';
+import { archiveOutline, archiveSharp, add, bookmarkOutline, bookmarkSharp, heartOutline, heartSharp, mailOutline, mailSharp, paperPlaneOutline, paperPlaneSharp, trashOutline, trashSharp, warningOutline, warningSharp } from 'ionicons/icons';
 
 export default defineComponent({
   name: 'App',
@@ -51,6 +57,8 @@ export default defineComponent({
     IonNote,
     IonRouterOutlet,
     IonSplitPane,
+    IonFab,
+    IonFabButton
   },
   setup() {
     const selectedIndex = ref(0);
@@ -102,6 +110,7 @@ export default defineComponent({
       trashOutline,
       trashSharp,
       warningOutline,
+      add,
       warningSharp,
       isSelected: (url: string) => url === route.path ? 'selected' : ''
     }
