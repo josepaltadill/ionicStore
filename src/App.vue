@@ -23,6 +23,16 @@
               <ion-label>{{ label }}</ion-label>
             </ion-item>
           </ion-list>
+          <ion-item>
+            <ion-label>Categories</ion-label>
+            <ion-select value="05">
+              <ion-select-option value="01">Men clothing</ion-select-option>
+              <ion-select-option value="02">Women clothing</ion-select-option>
+              <ion-select-option value="03">Jewelery</ion-select-option>
+              <ion-select-option value="04">Electronics</ion-select-option>
+              <ion-select-option value="05">All</ion-select-option>
+            </ion-select>
+          </ion-item>
         </ion-content>
       </ion-menu>
       <ion-router-outlet id="main-content"></ion-router-outlet>
