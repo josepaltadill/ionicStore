@@ -29,7 +29,7 @@
               <h2>{{ item.title }}</h2>
               <div class="description-more">
                 <p>{{ item.description }}</p>
-                <p @click="openPopover">More</p>
+                <p @click="openPopover(item.description)">More</p>
               </div>
               <ion-badge class="llista-cat">{{ item.category }}</ion-badge>
               <ion-badge color="primary">{{ item.price }} €</ion-badge>
@@ -180,13 +180,13 @@ export default {
         this.items.push(this.products[i]);
       }
     },
-    async openPopover() {
-      console.log(this.items);
+    async openPopover(message) {
+      // console.log(this.items);
       const popover = await popoverController.create({
           component: DescripcioPopover,
           cssClass: 'my-custom-class',
           componentProps: {
-            content: this.items.description,
+            content: message,
           },
           translucent: true
         })
